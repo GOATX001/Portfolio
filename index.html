@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ravi Kumbhar – Video Editor and Cinematographer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12161d;--panel:#1b212c;--line:#2b3342;--text:#eaeef5;--muted:#9aa5b8;
+  --c1:#4f7cff;--c2:#2fb3a3;--c3:#9a6bff;--c4:#ff8a4c;--head:#f5f7fb;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#eef0f5;--panel:#ffffff;--line:#d4d9e3;--text:#1c2330;--muted:#5b6578;--head:#101725;color-scheme:light}}
+:root[data-theme="dark"]{--bg:#12161d;--panel:#1b212c;--line:#2b3342;--text:#eaeef5;--muted:#9aa5b8;--head:#f5f7fb;color-scheme:dark}
+:root[data-theme="light"]{--bg:#eef0f5;--panel:#ffffff;--line:#d4d9e3;--text:#1c2330;--muted:#5b6578;--head:#101725;color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.6 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",Georgia,sans-serif;color:var(--head);margin:0;line-height:1.05}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:56px}
+nav b{font-family:"Bricolage Grotesque",sans-serif;font-size:19px}
+nav div a{margin-left:22px;text-decoration:none;color:var(--muted);font-weight:500;font-size:15px}
+nav div a:hover{color:var(--text)}
+.hero{padding:72px 0 48px}
+.hero h1{font-size:clamp(40px,8vw,84px);font-weight:800;letter-spacing:-.03em;max-width:12ch}
+.hero p{max-width:52ch;color:var(--muted);font-size:19px;margin:22px 0 28px}
+.btn{display:inline-block;padding:13px 24px;border-radius:6px;background:var(--c1);color:#fff;text-decoration:none;font-weight:600}
+.btn.alt{background:none;border:1px solid var(--line);color:var(--text);margin-left:10px}
+.btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--c4);outline-offset:3px}
+/* timeline */
+.tl{position:relative;margin-top:48px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:34px 14px 14px;overflow:hidden;cursor:crosshair}
+.ruler{position:absolute;left:0;right:0;top:0;height:22px;border-bottom:1px solid var(--line);background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 48px);opacity:.8}
+.track{display:flex;gap:4px;margin-bottom:6px;height:38px}
+.clip{border-radius:4px;color:#fff;font-size:13px;font-weight:600;padding:9px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none;display:block}
+.clip.a{background:var(--c1)}.clip.b{background:var(--c2)}.clip.c{background:var(--c3)}.clip.d{background:var(--c4);color:#1b1206}
+.gap{background:none}
+.head{position:absolute;top:0;bottom:0;left:0;width:2px;background:#ff4d5e;pointer-events:none}
+.head i{position:absolute;top:0;left:-6px;border:7px solid transparent;border-top:10px solid #ff4d5e;border-bottom:0}
+.tc{position:absolute;top:3px;left:8px;font:600 12px/1 ui-monospace,Menlo,monospace;color:#ff6b79;background:var(--panel);padding:2px 4px;border-radius:3px}
+section{padding:72px 0}
+h2{font-size:clamp(30px,5vw,46px);font-weight:700;margin-bottom:28px;letter-spacing:-.02em}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.filters button{font:500 15px Figtree,sans-serif;padding:8px 16px;border-radius:99px;border:1px solid var(--line);background:none;color:var(--text);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.thumb{aspect-ratio:16/9;display:grid;place-items:center;position:relative}
+.thumb::after{content:"";width:0;height:0;border-left:22px solid #fff;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:6px;opacity:.9}
+.thumb span{position:absolute;right:10px;bottom:8px;font:600 12px ui-monospace,Menlo,monospace;color:#fff;background:#0009;padding:2px 6px;border-radius:3px}
+.card div.t{padding:16px 18px 20px}
+.card h3{font-size:21px;margin-bottom:6px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.skills{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;list-style:none}
+.skills li{border:1px solid var(--line);background:var(--panel);padding:8px 14px;border-radius:6px;font-weight:500;font-size:15px}
+.svc{border-top:1px solid var(--line);padding:18px 0}
+.svc h3{font-size:22px;margin-bottom:4px}.svc p{margin:0;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:56px 0 64px}
+footer h2{font-size:clamp(34px,6vw,64px)}
+footer a.m{font:700 clamp(20px,3.4vw,30px) "Bricolage Grotesque",sans-serif;color:var(--c1)}
+.soc{margin-top:22px;display:flex;gap:20px;flex-wrap:wrap;color:var(--muted)}
+@media(max-width:720px){.two{grid-template-columns:1fr;gap:36px}nav div a{margin-left:14px}.hero{padding-top:44px}.btn.alt{margin:10px 0 0}}
+dialog{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);padding:14px;max-width:min(92vw,440px);width:100%}
+dialog::backdrop{background:#000b}
+#vt button{margin-left:8px}
+dialog button[aria-pressed="true"]{background:var(--text);color:var(--bg)}
+dialog video{display:block;width:100%;max-height:78vh;border-radius:6px;background:#000}
+dialog button{font:600 15px Figtree,sans-serif;margin-bottom:10px;padding:7px 16px;border-radius:6px;border:1px solid var(--line);background:none;color:var(--text);cursor:pointer}
+#verr{display:none;margin:10px 0 0;font-size:14px;color:#ff8a8a;word-break:break-all}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><b>Ravi Kumbhar</b><div><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a></div></div></nav>
+
+<header class="wrap hero">
+  <h1>I edit stories that hold attention.</h1>
+  <p>Video editor and cinematographer for brands, events and creators. I shoot and shape raw footage into clear, well-paced films, from camera to final color and sound.</p>
+  <a class="btn" href="#work">See my work</a><a class="btn alt" href="#contact">Hire me</a>
+
+  <div class="tl" id="tl" aria-label="Timeline of selected projects">
+    <div class="ruler"></div><div class="tc" id="tc">00:00:00:00</div>
+    <div class="track"><a class="clip a" style="flex:5" href="#work">Brand film</a><span class="gap" style="flex:1"></span><a class="clip c" style="flex:4" href="#work">Documentary</a><a class="clip b" style="flex:3" href="#work">Music video</a></div>
+    <div class="track"><span class="gap" style="flex:2"></span><a class="clip d" style="flex:4" href="#work">Social cutdowns</a><a class="clip a" style="flex:3" href="#work">Interview</a><span class="gap" style="flex:1"></span><a class="clip b" style="flex:3" href="#work">Promo</a></div>
+    <div class="track"><a class="clip b" style="flex:7" href="#work">Sound design and mix</a><a class="clip c" style="flex:6" href="#work">Color grade</a></div>
+    <div class="head" id="head"><i></i></div>
+  </div>
+</header>
+
+<section id="work"><div class="wrap">
+  <h2>Selected work</h2>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section id="services"><div class="wrap two">
+  <div>
+    <h2>What I do</h2>
+    <div class="svc"><h3>Story editing</h3><p>Assembly, rough cut and fine cut that find the story in your footage.</p></div>
+    <div class="svc"><h3>Short-form for social</h3><p>Vertical cutdowns and ads built for the first three seconds.</p></div>
+    <div class="svc"><h3>Color and sound</h3><p>Consistent grading, clean dialogue, music and sound design.</p></div>
+  </div>
+  <div>
+    <h2>Tools</h2>
+    <ul class="skills"><li>DaVinci Resolve</li><li>CapCut</li><li>Audition</li><li>Motion graphics</li><li>Color grading</li><li>Subtitles</li></ul>
+  </div>
+</div></section>
+
+<section id="about"><div class="wrap two">
+  <div><h2>About me</h2></div>
+  <div>
+    <p>I’m Ravi Kumbhar, a video editor and cinematographer with 1 year of professional experience. I shoot and edit, so I can take a project from the first frame on camera to the final export.</p>
+    <p>On set, I focus on framing, lighting and capturing clean footage. In the edit, I focus on pacing, sound and consistent color, so every video feels polished and holds attention from the first second.</p>
+    <p>I work on brand videos, weddings, social media content, interviews and music videos. I value clear communication and on-time delivery. Currently available for freelance projects: send me your idea and deadline.</p>
+  </div>
+</div></section>
+
+<footer id="contact"><div class="wrap">
+  <h2>Have a project in mind?</h2>
+  <p style="color:var(--muted);margin:14px 0 18px">Send me the details and I'll reply within one working day.</p>
+  <a class="m" href="mailto:ravikirankhumbar@gmail.com">ravikirankhumbar@gmail.com</a>
+  <div class="soc"><a href="https://www.linkedin.com/in/ravi-khumbar-8820a4279?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:ravikirankhumbar@gmail.com">Email</a><a href="tel:+918485043279">Call: +91 84850 43279</a></div>
+</div></footer>
+
+<dialog id="dlg"><button id="dx" aria-label="Close video">Close</button><span id="vt"></span><video id="vid" controls playsinline preload="none"></video><p id="verr"></p></dialog>
+<script>
+// Edit this list to add your own projects. Set "url" to your Vimeo/YouTube link.
+// Video paths are relative to index.html (no leading slash). Use "|" to separate several videos.
+var WORKS=[
+ {t:"Brand Story Film",cat:"Brand",d:"Cinematic company film with story-led pacing, color grade and music.",len:"0:30",c:"#4f7cff,#2a3f8f",url:"",video:"videos/brand-film.mp4"},
+ {t:"Wedding Highlight Reel",cat:"Events",d:"Emotional highlight edit synced to music, with smooth transitions.",len:"0:28",c:"#9a6bff,#4a2d99",url:"",video:"videos/wedding-highlight.mp4"},
+ {t:"Music Video Cut",cat:"Music video",d:"Beat-matched edit with fast cuts, effects and color styling.",len:"0:21",c:"#2fb3a3,#17635a",url:"",video:"videos/music-video.mp4"},
+ {t:"Reels and Shorts Pack",cat:"Social",d:"Vertical videos with captions, hooks and trending-style pacing.",len:"2 videos",c:"#ff8a4c,#a8481a",url:"",video:"videos/reel-1.mp4|videos/reel-2.mp4"},
+ {t:"Product Promo Video",cat:"Brand",d:"Short promo with clean motion graphics, titles and sound design.",len:"0:20",c:"#4f7cff,#2fb3a3",url:"",video:"videos/promo-1.mp4"},
+ {t:"Interview and Podcast Edit",cat:"Interview",d:"Multi-camera interview edit with clean audio, lower thirds and subtitles.",len:"0:17",c:"#9a6bff,#ff8a4c",url:"",video:"videos/interview.mp4"}
+];
+var cats=["All"].concat(WORKS.map(function(w){return w.cat}).filter(function(v,i,a){return a.indexOf(v)===i}));
+var fEl=document.getElementById("filters"),gEl=document.getElementById("grid");
+function render(cat){
+  gEl.innerHTML=WORKS.filter(function(w){return cat==="All"||w.cat===cat}).map(function(w){
+    var c=w.c.split(",");
+    return '<a class="card" style="text-decoration:none" href="'+(w.video?'#watch':(w.url||'#contact'))+'"'+(w.video?' data-v="'+w.video+'"':'')+'><div class="thumb" style="background:linear-gradient(135deg,'+c[0]+','+c[1]+')"><span>'+w.len+'</span></div><div class="t"><h3>'+w.t+'</h3><p>'+w.cat+'. '+w.d+'</p></div></a>';
+  }).join("");
+  Array.prototype.forEach.call(fEl.children,function(b){b.setAttribute("aria-pressed",b.textContent===cat)});
+}
+cats.forEach(function(c){var b=document.createElement("button");b.textContent=c;b.onclick=function(){render(c)};fEl.appendChild(b)});
+render("All");
+var dlg=document.getElementById("dlg"),vid=document.getElementById("vid"),verr=document.getElementById("verr");
+// show the exact path on screen if a video fails to load
+vid.addEventListener("error",function(){
+  if(!vid.getAttribute("src"))return;
+  verr.style.display="block";
+  verr.textContent="Could not load: "+vid.getAttribute("src")+" (file not found, or the video format is not supported by this browser)";
+});
+gEl.addEventListener("click",function(e){
+  var a=e.target.closest("[data-v]");if(!a)return;
+  e.preventDefault();var l=a.getAttribute("data-v").split("|"),vt=document.getElementById("vt");
+  var play=function(i){verr.style.display="none";vid.src=l[i];vid.play().catch(function(){});Array.prototype.forEach.call(vt.children,function(b,j){b.setAttribute("aria-pressed",j===i)})};
+  vt.innerHTML="";
+  if(l.length>1)l.forEach(function(_,i){var b=document.createElement("button");b.textContent="Video "+(i+1);b.onclick=function(){play(i)};vt.appendChild(b)});
+  dlg.showModal();play(0);
+});
+dlg.addEventListener("close",function(){vid.pause();vid.removeAttribute("src");vid.load();verr.style.display="none"});
+dlg.addEventListener("click",function(e){if(e.target===dlg)dlg.close()});
+document.getElementById("dx").onclick=function(){dlg.close()};
+// playhead follows the pointer across the timeline
+var tl=document.getElementById("tl"),hd=document.getElementById("head"),tc=document.getElementById("tc");
+function move(x){
+  var r=tl.getBoundingClientRect(),p=Math.max(0,Math.min(r.width-2,x-r.left));
+  hd.style.left=p+"px";
+  var s=Math.floor(p/r.width*120),f=Math.floor((p/r.width*120-s)*24);
+  tc.textContent="00:0"+Math.floor(s/60)+":"+("0"+(s%60)).slice(-2)+":"+("0"+f).slice(-2);
+}
+tl.addEventListener("pointermove",function(e){move(e.clientX)});
+</script>
+</body>
+</html>
